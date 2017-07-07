@@ -12,6 +12,10 @@ JSON_EXAMPLE_01_FALSE = """{"message": "Failed to created 'ExampleObj01'"}"""
 print checkUsePull(TC_01_NAME, PULL_EXAMPLE_01, JSON_EXAMPLE_01_TRUE, True)
 print checkUsePull(TC_01_NAME, PULL_EXAMPLE_01, JSON_EXAMPLE_01_FALSE, False)
 
+TC_02_NAME = "PULL REGEXP EXPRESSION TEST 02";
+PULL_EXAMPLE_02 = """r'\{"ID":\s*([0-9]+).*"NAME":\s*(.*)\s*\}'.PULL({0}==10;{1}<>"OBJ[0-9]+")"""
+JSON_EXAMPLE_02_TRUE = """{"ID": 10, "NAME": "OBJ010"}"""
+print checkUsePull(TC_02_NAME, PULL_EXAMPLE_02, JSON_EXAMPLE_02_TRUE, True)
 
 TC_03_NAME = "PULL REGEXP EXPRESSION TEST 03";
 PULL_EXAMPLE_03 = """r'\{"ID":\s*([0-9]+)\s*,\s*"NAME":\s*"([A-Z0-9]+)"\s*\}'.PULL({0}==[10,15];{1}==["OBJ010","OBJ015"])"""
