@@ -68,9 +68,9 @@ class PullVar:
 
     def checkValue(self, i):
         if self.op == self.OP_MATCHED:
-            return re.search(self.safeGet(self.expects,i), self.values[i])
+            return True if re.search(self.safeGet(self.expects,i), self.values[i]) else False
         elif self.op == self.OP_UNMATCHED:
-            return not re.search(self.safeGet(self.expects,i), self.values[i])
+            return False if re.search(self.safeGet(self.expects,i), self.values[i]) else True
         else:
             return eval(self.formatValue(self.values[i]) + self.op + \
                         self.formatValue(self.safeGet(self.expects,i)))
