@@ -10,6 +10,8 @@ class PullVar:
 
     SEPERATE_COMMA = ",";
     SYMBOL_QUOTE = "'"
+    OP_MATCHED = "<>"
+    OP_UNMATCHED = "><"
     TYPE_STRING = "STRING"
     TYPE_INTEGER = "INTEGER"
 
@@ -64,13 +66,20 @@ class PullVar:
     def formatValue(self, value):
         return value if self.type == self.TYPE_INTEGER else self.SYMBOL_QUOTE + value + self.SYMBOL_QUOTE
 
+    def checkValue(self, i):
+        if self.op == self.OP_MATCHED:
+            return re.search(self.safeGet(self.expects,i), self.values[i])
+        elif self.op == self.OP_UNMATCHED:
+            return not re.search(self.safeGet(self.expects,i), self.values[i])
+        else:
+            return eval(self.formatValue(self.values[i]) + self.op + \
+                        self.formatValue(self.safeGet(self.expects,i)))
+
     def checkResult(self):
         if (len(self.expects) == 0 or len(self.values) == 0): return self.result
         localResult = True
         for i in range(0, len(self.values)):
-            localResult = localResult and \
-                          eval(self.formatValue(self.values[i]) + self.op + \
-                          self.formatValue(self.safeGet(self.expects,i)))
+            localResult = localResult and self.checkValue(i)
         self.result = localResult
         return self.result
 
