@@ -55,9 +55,12 @@ class PullObj:
         matches = re.findall(self.regExp, text)
         for m in matches:
             self.match = True
-            for i in range(0, len(m)):
-                if (i in self.pullVars.keys()):
-                    self.pullVars[i].setValue(m[i])
+            if isinstance(m, tuple):
+                for i in range(0, len(m)):
+                    if (i in self.pullVars.keys()):
+                        self.pullVars[i].setValue(m[i])
+            else:
+                self.pullVars[0].setValue(m)
         self.result = self.resultPullVars()
         return self.result
 
