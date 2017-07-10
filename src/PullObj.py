@@ -7,6 +7,11 @@ class PullObj:
     REG_PULL_OBJ_EXP = r"r'(.*)'.PULL\((.*)\)"
     SPLIT_SEMICOLON = ";"
 
+    @staticmethod
+    def test(pullExp):
+        m = re.search(PullObj.REG_PULL_OBJ_EXP, pullExp)
+        return True if m else False
+
     def __init__(self, pullExp, objName=None):
         self.pullObjName = objName
         self.regExp = None
@@ -16,7 +21,6 @@ class PullObj:
         self.match = False
 
         self.initPullObj(pullExp)
-
 
     def initPullObj(self, pullExp):
         match = re.search(self.REG_PULL_OBJ_EXP, pullExp)
@@ -57,6 +61,7 @@ class PullObj:
         self.result = self.resultPullVars()
         return self.result
 
+    def getName(self): return self.pullObjName
 
     def printPullVars(self):
         result = str()
