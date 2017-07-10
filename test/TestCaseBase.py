@@ -23,19 +23,25 @@ class TestCasePull:
         result = ''
         for text in texts: result += self.TC_DETAIL_INDENT + text + self.TC_NEWLINE
         return result
-    
+
+    def addTcResult(self, tcName, pullExp, text, expect, result):
+        self.tcList.append((self.genResult(tcName, \
+                            self.genDescription(["PULL REGEXP EXPRESSION: " + pullExp, \
+                                                 "CHECKED TEXT          : " + text, \
+                                                 "PULL EXECUTE RESULT   : " + str(result)]), \
+                            (result==expect)), 
+                            (result==expect)))
+
+    def addTcExcption(self, tcName, e):
+        self.tcList.append((self.genResult(tcName, str(e), False), False))
+
     def checkUsePull(self, tcName, pullExp, text, expect):
         try:
             p = PullObj(pullExp)
             r = p.check(text)
-            self.tcList.append((self.genResult(tcName, \
-                                self.genDescription(["PULL REGEXP EXPRESSION: " + pullExp, \
-                                                     "CHECKED TEXT          : " + text, \
-                                                     "PULL EXECUTE RESULT   : " + str(r)]), \
-                                (r==expect)), 
-                                (r==expect)))
+            self.addTcResult(tcName, pullExp, text, expect, r)
         except Exception as e:
-            self.tcList.append(self.genResult(tcName, str(e), False), False)
+            self.addTcExcption(tcName, str(e))
 
     def __str__(self):
         result = ''
