@@ -4,6 +4,7 @@ import re
 import sys
 sys.path.append('../src/')
 from PullObj import PullObj
+from PullChain import PullChain
 
 class TestCasePull:
     TC_DETAIL_INDENT = "    "
@@ -38,6 +39,14 @@ class TestCasePull:
     def checkUsePull(self, tcName, pullExp, text, expect):
         try:
             p = PullObj(pullExp)
+            r = p.check(text)
+            self.addTcResult(tcName, pullExp, text, expect, r)
+        except Exception as e:
+            self.addTcExcption(tcName, str(e))
+
+    def checkUsePullChain(self, tcName, pullExp, text, expect):
+        try:
+            p = PullChain(pullExp)
             r = p.check(text)
             self.addTcResult(tcName, pullExp, text, expect, r)
         except Exception as e:
