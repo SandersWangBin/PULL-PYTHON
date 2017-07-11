@@ -29,14 +29,23 @@ class PullChain:
             self.pullChainFile = m.group(1)
             self.readPullChainFile(self.pullChainFile)
             self.genPullChains(m.group(2))
-
-
-
+        else:
+            m = re.compile(self.REG_PULL_CHAIN_MULTILINES_EXP, re.DOTALL).search(pullExp)
+            if m:
+                self.pullChainMultilines = m.group(1)
+                self.readPullChainMultilines(self.pullChainMultilines)
+                self.genPullChains(m.group(2))
+            else:
+                raise Exception("ERROR: wrong PULL Chain expression.")
 
     def readPullChainFile(self, fileName):
         with open(fileName, 'r') as f:
             for l in f.readlines():
                 if len(l.strip())>0: self.readPullChainLine(l.strip())
+
+    def readPullChainMultilines(self, multilines):
+        for l in multilines.split('\n'):
+            if len(l.strip())>0: self.readPullChainLine(l.strip())
 
     def readPullChainLine(self, line):
         m = re.search(self.REG_PULL_OBJ_EXP, line)
