@@ -65,6 +65,7 @@ class PullObj:
         return self.result
 
     def getName(self): return self.pullObjName
+    def getResult(self): return self.result
 
     def printPullVars(self):
         result = str()

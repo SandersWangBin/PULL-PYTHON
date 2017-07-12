@@ -102,6 +102,8 @@ class PullChain:
         return self.result
 
 
+    def getPullChainCurrent(self): return self.pullChainCurrent
+
     def toStringChainRoot(self):
         result = ''
         next = self.pullChainRoot
